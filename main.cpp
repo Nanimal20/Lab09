@@ -2,14 +2,14 @@
 #include <string>
 #include <cstdlib>
 #include "Graphs.cpp"
-
+#include <fstream>
 using namespace std;
 
-int main()
-{
+int main(){
     bool run = true;
     
-    //char use_matrix;
+    
+    char use_matrix;
     std::string row = "";
     
     int size;
@@ -17,12 +17,38 @@ int main()
     std::vector<int> edges; 
     int matrix[MATRIX_SIZE][MATRIX_SIZE] = {0};
 
-    std::cout << "Enter size of desired matrix:\n" << std::endl;
-    std::cin >> size;
+    std::cout << "Load a matrix file? (y for yes, n for no)" << std::endl;
+    std::cin >> use_matrix;
+    int count = 0;
+
+    if(use_matrix == 'y'){
+        std::ifstream inFile;
+        cout << "Loading matrix file from project directory...\n" << std::endl;
+        inFile.open("C:\\Users\\naand\\Labs\\Lab 09\\SampleTemplate-main\\matrix.txt");
+        
+//This is where theres some issue with opening and loading the matrix.txt file but idk how to fix it
+
+        if (!inFile){
+            cout << "Matrix failed to open\n" << std::endl;
+            exit(1);
+        }else{ 
+            //inFile >> matrix [MATRIX_SIZE][MATRIX_SIZE]; 
+            for (int i=0; i<10; i++){              
+                for (int j=0; j<10; j++){
+                    std::cin >> row;
+                    inFile >> matrix [i][j];
+                    //matrix[i][j] = std::stoi(row);
+                }
+            }
+        }
+    }else if (use_matrix == 'n'){
+        std::cout << "Enter size of desired matrix:\n" << std::endl;
+        std::cin >> size;
+    }
+
     Graph graph(size);
 
-    while(run)
-    {
+    while(run){
   
         std::cout <<"Press 1 to add an edge to the graph" << std::endl;
         std::cout <<"Press 2 remove an edge from graph" << std::endl;
@@ -39,6 +65,7 @@ int main()
         int input = 0;
         std::cin >> input;
         cout << "I received this input: "<< input<< std::endl;
+
         switch(input)
         {
             case 1:
